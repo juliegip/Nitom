@@ -9,7 +9,7 @@ import { Actu } from "@/types";
 import { Helmet } from "react-helmet";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const ActusDisplay = () => {
   const [actus, setActus] = useState<Actu[]>([]);
@@ -26,17 +26,17 @@ const ActusDisplay = () => {
   const fetchActus = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND}/api/actus?populate=media`
+        `${import.meta.env.VITE_APP_BACKEND}/api/articles?populate=Photo`
       );
       const sortedData = response.data.data.sort((a: Actu, b: Actu) => {
         return (
-          new Date(b.attributes.date).getTime() -
-          new Date(a.attributes.date).getTime()
+          new Date(b.attributes.Date_article).getTime() -
+          new Date(a.attributes.Date_article).getTime()
         );
       });
       setActus(sortedData);
       const uniqueCategories: string[] = Array.from(
-        new Set(sortedData.map((actu: Actu) => actu.attributes.category))
+        new Set(sortedData.map((actu: Actu) => actu.attributes.Category))
       );
       setCategories(uniqueCategories);
       setLoading(false);
@@ -49,7 +49,6 @@ const ActusDisplay = () => {
     fetchActus();
   }, []);
 
-
   const formatDate = (date: string) => {
     const dateObj = new Date(date);
     return dateObj.toLocaleDateString();
@@ -58,7 +57,7 @@ const ActusDisplay = () => {
   const filteredActus =
     selectedCategory === "Toutes les actualités"
       ? actus
-      : actus.filter((actu) => actu.attributes.category === selectedCategory);
+      : actus.filter((actu) => actu.attributes.Category === selectedCategory);
 
   return (
     <>
@@ -113,7 +112,9 @@ const ActusDisplay = () => {
           }}
         >
           {filteredActus.slice(0, 50)?.map((actu: any, index: number) => {
-            const imageUrl = actu.attributes.media.data.attributes.formats.small?.url || actu.attributes.media.data.attributes.url;
+            const imageUrl =
+              actu.attributes.Photo.data.attributes.formats.small?.url ||
+              actu.attributes.Photo.data.attributes.url;
             return (
               <Box
                 key={actu.id}
@@ -163,7 +164,7 @@ const ActusDisplay = () => {
                 >
                   <Box>
                     <Typography variant="h5">
-                      {formatDate(actu.attributes.date)}
+                      {formatDate(actu.attributes.Date)}
                     </Typography>
                     <Typography
                       variant="h3"
@@ -171,10 +172,10 @@ const ActusDisplay = () => {
                         flexGrow: 1,
                       }}
                     >
-                      {actu.attributes.title}
+                      {actu.attributes.Title}
                     </Typography>
                     <Chip
-                      label={actu.attributes.category}
+                      label={actu.attributes.Category}
                       variant="filled"
                       color="secondary"
                       sx={{ my: "1rem" }}
@@ -189,7 +190,7 @@ const ActusDisplay = () => {
                       }}
                     >
                       <ReactMarkdown disallowedElements={["img"]}>
-                        {actu.attributes.content.substring(0, 300) + "..."}
+                        {actu.attributes.Contenu.substring(0, 300) + "..."}
                       </ReactMarkdown>
                     </Typography>
                   </Box>

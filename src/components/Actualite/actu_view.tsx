@@ -6,14 +6,16 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ShareIcon from "@mui/icons-material/Share";
 import ReactMarkdown from "react-markdown";
 import { Helmet } from "react-helmet";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Actu } from "@/types";
-
 
 const ActusView = () => {
   const { id } = useParams<{ id: string }>();
   const [actu, setActu] = useState<Actu | null>(null);
-  const mediaUrl = actu?.attributes.media?.data.attributes.formats?.medium?.url || actu?.attributes.media?.data.attributes.url || "";
+  const mediaUrl =
+    actu?.attributes.Photo?.data.attributes.formats?.medium?.url ||
+    actu?.attributes.Photo?.data.attributes.url ||
+    "";
   const [loading, setLoading] = useState(true);
 
   const formatDate = (date: string) => {
@@ -44,7 +46,7 @@ const ActusView = () => {
     if (navigator.share) {
       navigator
         .share({
-          title: actu?.attributes.title,
+          title: actu?.attributes.Title,
           text: "Regardez cette actualité !",
           url: window.location.href,
         })
@@ -57,10 +59,13 @@ const ActusView = () => {
   return (
     <>
       <Helmet>
-        <title>{actu?.attributes.title} - Motin SAS</title>
-        <meta name="description" content={actu?.attributes.content} />
-        <meta property="og:title" content={actu?.attributes.title} />
-        <meta property="og:image" content={`${import.meta.env.VITE_APP_BACKEND}${mediaUrl}`} />
+        <title>{actu?.attributes.Title} - Motin SAS</title>
+        <meta name="description" content={actu?.attributes.Contenu} />
+        <meta property="og:title" content={actu?.attributes.Title} />
+        <meta
+          property="og:image"
+          content={`${import.meta.env.VITE_APP_BACKEND}${mediaUrl}`}
+        />
         <meta property="og:url" content={window.location.href} />
         <meta property="og:type" content="article" />
       </Helmet>
@@ -89,12 +94,10 @@ const ActusView = () => {
             width: "70vw",
           }}
         >
-          <Typography variant="h1">
-            {actu?.attributes.title}
-          </Typography>
+          <Typography variant="h1">{actu?.attributes.Title}</Typography>
 
           <Typography variant="body1" sx={{ textAlign: "left", my: 2 }}>
-            {formatDate(actu?.attributes.date ?? '')}
+            {formatDate(actu?.attributes.Date_article ?? "")}
           </Typography>
 
           {mediaUrl && (
@@ -116,7 +119,7 @@ const ActusView = () => {
           }}
         >
           <Typography variant="body1">
-            <ReactMarkdown>{actu?.attributes.content}</ReactMarkdown>
+            <ReactMarkdown>{actu?.attributes.Contenu}</ReactMarkdown>
           </Typography>
         </Box>
 

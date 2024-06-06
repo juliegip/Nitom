@@ -29,7 +29,7 @@ export interface BaseListProps {
   highlightedBase: number | null;
 }
 
-export interface MediaAttributes {
+export interface PhotoAttributes {
   formats: {
     small: {
       url: string;
@@ -41,20 +41,20 @@ export interface MediaAttributes {
   url: string;
 }
 
-export interface MediaData {
-  attributes: MediaAttributes;
+export interface PhotoData {
+  attributes: PhotoAttributes;
 }
 
 export interface ActuAttributes {
-  title: string;
-  date: string;
-  category: string;
-  content: string;
+  Title: string;
+  Date_article: string;
+  Category: string;
+  Contenu: string;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-  media?: {
-    data: MediaData;
+  Photo?: {
+    data: PhotoData;
   };
 }
 

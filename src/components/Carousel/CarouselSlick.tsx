@@ -17,9 +17,13 @@ const CarouselSlick = () => {
   const fetchActus = async () => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND}/api/actus?populate=media`
+        `${import.meta.env.VITE_APP_BACKEND}/api/articles?populate=media`
       );
-      const sortedData = data.data.sort((a: Actu, b: Actu) => new Date(b.attributes.date).getTime() - new Date(a.attributes.date).getTime());
+      const sortedData = data.data.sort(
+        (a: Actu, b: Actu) =>
+          new Date(b.attributes.Date_article).getTime() -
+          new Date(a.attributes.Date_article).getTime()
+      );
       setNews(sortedData);
       setLoading(false);
     } catch (error) {

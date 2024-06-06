@@ -11,14 +11,14 @@ import ReactMarkdown from "react-markdown";
 import { Actu } from "@/types";
 
 const NewsCard = ({ news }: { news: Actu }) => {
-  const { category, title, content, date } = news.attributes;
-  const mediaUrl = 
-  (news.attributes.media?.data.attributes.formats?.small?.url) || 
-  (news.attributes.media?.data.attributes.url) || 
-  "";
+  const { Category, Title, Contenu, Date_article } = news.attributes;
+  const mediaUrl =
+    news.attributes.Photo?.data.attributes.formats?.small?.url ||
+    news.attributes.Photo?.data.attributes.url ||
+    "";
 
-  const formatDate = (date: string) => {
-    const dateObj = new Date(date);
+  const formatDate = (datestring: string) => {
+    const dateObj = new Date(datestring);
     return dateObj.toLocaleDateString("fr-FR", {
       weekday: "long",
       year: "numeric",
@@ -28,7 +28,15 @@ const NewsCard = ({ news }: { news: Actu }) => {
   };
 
   return (
-    <Card sx={{ display: "flex", flexDirection: "column", height: "100%", minHeight: "650px", margin: "0.5rem" }}>
+    <Card
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        minHeight: "650px",
+        margin: "0.5rem",
+      }}
+    >
       <CardMedia
         component="img"
         sx={{ height: 200 }}
@@ -40,22 +48,37 @@ const NewsCard = ({ news }: { news: Actu }) => {
         alt="News image"
       />
       <CardContent sx={{ flexGrow: 1, overflow: "auto" }}>
-        <Typography gutterBottom variant="h5" component="div" sx={{ minHeight: "70px" }}>
-          {title}
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          sx={{ minHeight: "70px" }}
+        >
+          {Title}
         </Typography>
         <Chip
-          label={category}
+          label={Category}
           variant="outlined"
           color="secondary"
           sx={{ my: "0.5rem", minHeight: "30px" }}
         />
-        <Typography variant="body2" color="text.secondary" component="div" sx={{ flexGrow: 1, minHeight: "150px", overflow: "hidden" }}>
-        <ReactMarkdown components={{ img: () => null }}>
-          {content.replace(/\n/g, ' ').substring(0, 200) + "..."}
-        </ReactMarkdown>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          component="div"
+          sx={{ flexGrow: 1, minHeight: "150px", overflow: "hidden" }}
+        >
+          <ReactMarkdown components={{ img: () => null }}>
+            {Contenu.replace(/\n/g, " ").substring(0, 200) + "..."}
+          </ReactMarkdown>
         </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ minHeight: "30px" }} component="div">
-          {formatDate(date)}
+        <Typography
+          variant="body1"
+          color="text.secondary"
+          sx={{ minHeight: "30px" }}
+          component="div"
+        >
+          {formatDate(Date_article)}
         </Typography>
       </CardContent>
       <CardActions sx={{ mt: "auto", minHeight: "50px" }}>
