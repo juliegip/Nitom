@@ -1,0 +1,42 @@
+{
+  "slogan": "Motin, une entreprise familiale au service de l’agriculture",
+  "sections": {
+    "actualites": "Notre Actualité",
+    "services": "Notre Offre",
+    "partenaires": "Nos Partenaires"
+  },
+  "homepage": {
+    "hero_title": "Concessionnaire de machines agricoles",
+    "hero_title1": "Massey Ferguson ",
+    "hero_subtitle": "Normandie, Bretagne",
+    "actualites_link": "Voir toutes nos actualités...",
+    "mapkeyword_title": "Motin c'est ...",
+    "chiffres_cles_v2": [
+      {
+        "title": "65",
+        "content": "Collaborateurs dévoués à votre service"
+      },
+      {
+        "title": "4",
+        "content": "Départements couverts par Motin : 50, 14, 61, 35"
+      },
+      {
+        "title": "150",
+        "content": "Tracteurs neufs vendus chaque année"
+      },
+      {
+        "title": "350",
+        "content": "Tracteurs d'occasion vendus chaque année"
+      },
+      {
+        "title": "Top 3",
+        "content": "Concessionnaire Massey Ferguson en France"
+      }
+    ]
+  },
+
+  "about": {
+    "title": "Motin ",
+    "subtitle": "Une entreprise familiale au service de l’agriculture"
+  }
+}
