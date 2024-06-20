@@ -27,7 +27,9 @@ const ActusView = () => {
     const fetchActu = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_APP_BACKEND}/api/actus/${id}?populate=media`
+          `${
+            import.meta.env.VITE_APP_BACKEND
+          }/api/articles/${id}?populate=media`
         );
         setActu(response.data.data);
         setLoading(false);
