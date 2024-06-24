@@ -104,3 +104,26 @@ export interface HeadBandContent {
     Contenu: string;
   };
 }
+
+export interface RecrutementAttributes {
+  job_title: string;
+  job_location: string;
+  contract_type: string;
+  perrard: boolean;
+  content: string;
+  photo?: {
+    data?: {
+      attributes: {
+        formats?: {
+          small?: { url: string };
+        };
+        url: string;
+      };
+    };
+  };
+}
+
+export interface Recrutement {
+  id: number;
+  attributes: RecrutementAttributes;
+}
