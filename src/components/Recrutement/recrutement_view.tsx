@@ -11,26 +11,41 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import ReactMarkdown from "react-markdown";
 import STG from "@/assets/Bases/STG.jpg";
 import { Helmet } from "react-helmet";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import transition from "@/theme/transition";
 
 const RecrutementView = () => {
-  const [loading, setLoading] = useState(true);
   const { id } = useParams<{ id: string }>();
+  const [loading, setLoading] = useState(true);
   const [recrutement, setRecrutement] = useState<any>();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchRecrutement = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_BACKEND}/api/recrutements/${id}?populate=media`);
+        const response = await axios.get(
+          `${
+            import.meta.env.VITE_APP_BACKEND
+          }/api/recrutements/${id}?populate=photo`
+        );
         setRecrutement(response.data.data);
         setLoading(false);
       } catch (error) {
-        console.log("Erreur lors du chargement de l'offre de recrutement");
+        setError("Erreur lors du chargement des offres de recrutement");
+      } finally {
+        setLoading(false);
       }
     };
     fetchRecrutement();
   }, [id]);
+
+  if (loading) return <Loading open={loading} />;
+  if (error)
+    return (
+      <Typography variant="h3" color="error">
+        {error}
+      </Typography>
+    );
 
   if (!recrutement) {
     return <CircularProgress color="secondary" />;
@@ -40,7 +55,7 @@ const RecrutementView = () => {
     if (navigator.share) {
       navigator
         .share({
-          title: recrutement.attributes.jobTitle,
+          title: recrutement.attributes.job_title,
           text: "Regardez cette offre de recrutement !",
           url: window.location.href,
         })
@@ -53,14 +68,29 @@ const RecrutementView = () => {
   return (
     <>
       <Helmet>
-        <title>{recrutement.attributes.jobTitle} - Motin SAS</title>
-        <meta name="description" content="Découvrez nos offres de recrutement" />
-        <meta property="og:title" content={recrutement.attributes.jobTitle} />
-        <meta property="og:description" content={recrutement.attributes.content} />
-        <meta property="og:image" content={`${import.meta.env.VITE_APP_BACKEND}${recrutement.attributes.media.data.attributes.formats.medium?.url || recrutement.attributes.media.data.attributes.url}`} />
+        <title>{recrutement.attributes.job_title} - Motin SAS</title>
+        <meta
+          name="description"
+          content="Découvrez nos offres de recrutement"
+        />
+        <meta property="og:title" content={recrutement.attributes.job_title} />
+        <meta
+          property="og:description"
+          content={recrutement.attributes.content}
+        />
+        <meta
+          property="og:image"
+          content={`${import.meta.env.VITE_APP_BACKEND}${
+            recrutement.attributes.photo.data.attributes.formats.medium?.url ||
+            recrutement.attributes.photo.data.attributes.url
+          }`}
+        />
         <meta property="og:url" content={window.location.href} />
         <meta property="og:type" content="article" />
-        <meta property="article:published_time" content={recrutement.attributes.createdAt} />
+        <meta
+          property="article:published_time"
+          content={recrutement.attributes.createdAt}
+        />
       </Helmet>
       <Loading open={loading} />
       <Box
@@ -98,18 +128,21 @@ const RecrutementView = () => {
             }}
           >
             <Typography variant="h1" sx={{ textAlign: "left", ml: 2, mb: 2 }}>
-              {recrutement.attributes.jobTitle}
+              {recrutement.attributes.job_title}
             </Typography>
 
-            {recrutement.attributes.media.data && (
+            {recrutement.attributes.photo.data && (
               <LazyLoadImage
-                src={`${import.meta.env.VITE_APP_BACKEND}${recrutement.attributes.media.data.attributes.formats.medium?.url || recrutement.attributes.media.data.attributes.url}`}
+                src={`${import.meta.env.VITE_APP_BACKEND}${
+                  recrutement.attributes.photo.data.attributes.formats.medium
+                    ?.url || recrutement.attributes.photo.data.attributes.url
+                }`}
                 alt="photo actualité"
                 style={{ width: "100%", height: "auto", padding: "1rem" }}
               />
             )}
 
-            {!recrutement.attributes.media.data && (
+            {!recrutement.attributes.photo.data && (
               <LazyLoadImage
                 src={STG}
                 alt="photo actualité"
@@ -117,7 +150,7 @@ const RecrutementView = () => {
               />
             )}
 
-            {recrutement.attributes.contractType && (
+            {recrutement.attributes.contract_type && (
               <Box
                 sx={{
                   display: "flex",
@@ -144,7 +177,7 @@ const RecrutementView = () => {
                   variant="body1"
                   sx={{ textAlign: "left", mb: 1, ml: 2 }}
                 >
-                  {recrutement.attributes.contractType}
+                  {recrutement.attributes.contract_type}
                 </Typography>
               </Box>
             )}
@@ -176,14 +209,11 @@ const RecrutementView = () => {
                 variant="body1"
                 sx={{ textAlign: "left", mb: 1, ml: 2 }}
               >
-                {recrutement.attributes.jobLocation}
+                {recrutement.attributes.job_location}
               </Typography>
             </Box>
 
-            <Typography
-              variant="body1"
-              sx={{ ml: 2 }}
-            >
+            <Typography variant="body1" sx={{ ml: 2 }}>
               <ReactMarkdown>{recrutement.attributes.content}</ReactMarkdown>
             </Typography>
           </Box>

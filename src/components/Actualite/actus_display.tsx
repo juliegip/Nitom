@@ -23,29 +23,29 @@ const ActusDisplay = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const fetchActus = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND}/api/articles?populate=Photo`
-      );
-      const sortedData = response.data.data.sort((a: Actu, b: Actu) => {
-        return (
-          new Date(b.attributes.Date_article).getTime() -
-          new Date(a.attributes.Date_article).getTime()
-        );
-      });
-      setActus(sortedData);
-      const uniqueCategories: string[] = Array.from(
-        new Set(sortedData.map((actu: Actu) => actu.attributes.Category))
-      );
-      setCategories(uniqueCategories);
-      setLoading(false);
-    } catch (error) {
-      setError("Erreur lors du chargement des actualités");
-    }
-  };
-
   useEffect(() => {
+    const fetchActus = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_APP_BACKEND}/api/articles?populate=Photo`
+        );
+        const sortedData = response.data.data.sort((a: Actu, b: Actu) => {
+          return (
+            new Date(b.attributes.Date_article).getTime() -
+            new Date(a.attributes.Date_article).getTime()
+          );
+        });
+        setActus(sortedData);
+        const uniqueCategories: string[] = Array.from(
+          new Set(sortedData.map((actu: Actu) => actu.attributes.Category))
+        );
+        setCategories(uniqueCategories);
+        setLoading(false);
+      } catch (error) {
+        setError("Erreur lors du chargement des actualités");
+      }
+    };
+
     fetchActus();
   }, []);
 
