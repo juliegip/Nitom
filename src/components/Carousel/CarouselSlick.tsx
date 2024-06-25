@@ -17,7 +17,7 @@ const CarouselSlick = () => {
   const fetchActus = async () => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND}/api/articles?populate=media`
+        `${import.meta.env.VITE_APP_BACKEND}/api/articles?populate=Photo`
       );
       const sortedData = data.data.sort(
         (a: Actu, b: Actu) =>
