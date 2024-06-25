@@ -29,7 +29,7 @@ const ActusView = () => {
         const response = await axios.get(
           `${
             import.meta.env.VITE_APP_BACKEND
-          }/api/articles/${id}?populate=media`
+          }/api/articles/${id}?populate=Photo`
         );
         setActu(response.data.data);
         setLoading(false);
