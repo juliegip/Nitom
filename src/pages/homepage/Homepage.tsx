@@ -17,6 +17,7 @@ import {
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import transition from "@/theme/transition";
+import AxiosTest from "@/components/Axios-test/AxiosTest";
 
 const Divider = (props: any) => (
   <motion.div
@@ -58,6 +59,7 @@ const Homepage = () => {
   }, [isScrolledToHistory]);
   return (
     <>
+      <AxiosTest />
       <HeadBand />
       <HeroSlider ref={heroSliderRef} />
       <Box component="main" maxWidth={1200} mx="auto">
@@ -102,7 +104,7 @@ const Homepage = () => {
           }}
         />
         <Newsletter />
-      <Divider
+        <Divider
           sx={{
             width: "75%",
             borderBottomWidth: 3,
